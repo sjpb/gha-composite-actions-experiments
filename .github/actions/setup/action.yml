@@ -16,5 +16,5 @@ runs:
     - name: Install python requirements
       run: |
         . venv/bin/activate
-        pip install requirements.txt
+        pip install -r requirements.txt
       shell: bash
