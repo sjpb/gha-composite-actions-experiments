@@ -3,6 +3,11 @@ description: setup python packages etc for a workflow
 #inputs:
 #outputs:
 runs:
+  env:
+    shell: bash
+  defaults:
+  run:
+    shell: bash
   using: composite
   steps:
     - name: Create venv

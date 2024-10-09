@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
+      - name: list all
+        run: ls -al
       - name: run setup
         uses:  ./.github/actions/setup
       - name: Show openstack client is installed
