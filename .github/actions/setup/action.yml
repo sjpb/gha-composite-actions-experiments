@@ -3,20 +3,18 @@ description: setup python packages etc for a workflow
 #inputs:
 #outputs:
 runs:
-  env:
-    shell: bash
-  defaults:
-  run:
-    shell: bash
   using: composite
   steps:
     - name: Create venv
       run: /usr/bin/python3.10 -m venv venv
+      shell: bash
     - name: Upgrade pip
       run: |
         . venv/bin/activate
         pip install -U pip
+      shell: bash
     - name: Install python requirements
       run: |
         . venv/bin/activate
         pip install requirements.txt
+      shell: bash
