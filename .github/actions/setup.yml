@@ -1,0 +1,17 @@
+name: 'setup all the things'
+description: setup python packages etc for a workflow
+#inputs:
+#outputs:
+runs:
+  using: composite
+  steps:
+    - name: Create venv
+      run: /usr/bin/python3.10 -m venv venv
+    - name: Upgrade pip
+      run: |
+        . venv/bin/activate
+        pip install -U pip
+    - name: Install python requirements
+      run: |
+        . venv/bin/activate
+        pip install requirements.txt

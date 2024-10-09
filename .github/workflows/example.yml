@@ -1,0 +1,16 @@
+name: Demo using shared setup action
+on:
+  push:
+jobs:
+  demo:
+    name: demo-job
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: run setup
+        uses: ./actions/.github/actions/setup.yml
+      - name: Show openstack client is installed
+        run: |
+          . venv/bin/activate
+          openstack --help
