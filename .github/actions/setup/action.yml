@@ -6,7 +6,7 @@ runs:
   using: composite
   steps:
     - name: Echo a fixed string
-      run: echo MAIN
+      run: echo 'FEATURE 1'
       shell: bash
     - name: Create venv
       run: /usr/bin/python3.10 -m venv venv
