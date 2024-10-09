@@ -1,23 +1,26 @@
 name: 'setup all the things'
 description: setup python packages etc for a workflow
-#inputs:
+inputs:
+  shell:
+    required: false
+    default: bash
 #outputs:
 runs:
   using: composite
   steps:
     - name: Echo a fixed string
       run: echo MAIN
-      shell: bash
+      shell: ${{ inputs.shell }}
     - name: Create venv
       run: /usr/bin/python3.10 -m venv venv
-      shell: bash
+      shell: ${{ inputs.shell }}
     - name: Upgrade pip
       run: |
         . venv/bin/activate
         pip install -U pip
-      shell: bash
+      shell: ${{ inputs.shell }}
     - name: Install python requirements
       run: |
         . venv/bin/activate
         pip install -r requirements.txt
-      shell: bash
+      shell: ${{ inputs.shell }}
