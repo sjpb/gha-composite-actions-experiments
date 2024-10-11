@@ -19,7 +19,7 @@ jobs:
         echo "External IP address is: $EXTERNAL_IP"
         echo "::set-output name=external_ip::$EXTERNAL_IP"
     
-    - name: Display user prompt with clickable links
+    - name: Wait for user input
       run: |
         EXTERNAL_IP="${{ steps.get_ip.outputs.external_ip }}"
         CONTINUE_URL="http://$EXTERNAL_IP:8080/continue"
@@ -27,15 +27,6 @@ jobs:
         echo "To continue, click here: $CONTINUE_URL"
         echo "To abort, click here: $ABORT_URL"
     
-    - name: Debug python path
-      run: |
-        echo $PWD
-        echo contents: $(ls -al)
-        python3 -c "import sys; print(sys.path)"
-
-    - name: Wait for user input
-      run: |
-        echo "Waiting for the user to click a link..."
         RESPONSE=$(python3 server.py)
         if [ "$RESPONSE" == "continue" ]; then
           echo "User chose to continue."
@@ -43,3 +34,6 @@ jobs:
           echo "User chose to abort."
           exit 1
         fi
+      # might be better to rewrite this so the choices define the exit codes and we print the message from the server
+      # directly, i.e. without capturing RESPONSE=()
+      
