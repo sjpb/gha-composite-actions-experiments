@@ -1,0 +1,39 @@
+name: User Prompt Action with External IP
+
+on:
+  push:
+    branch: prompt
+
+jobs:
+  user_prompt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    
+    - name: Get external IP address
+      id: get_ip
+      run: |
+        EXTERNAL_IP=$(curl -s https://api.ipify.org)
+        echo "External IP address is: $EXTERNAL_IP"
+        echo "::set-output name=external_ip::$EXTERNAL_IP"
+    
+    - name: Wait for user input
+      run: |
+        EXTERNAL_IP="${{ steps.get_ip.outputs.external_ip }}"
+        CONTINUE_URL="http://$EXTERNAL_IP:8080/continue"
+        ABORT_URL="http://$EXTERNAL_IP:8080/abort"
+        echo "To continue, click here: $CONTINUE_URL"
+        echo "To abort, click here: $ABORT_URL"
+    
+        RESPONSE=$(python3 server.py)
+        if [ "$RESPONSE" == "continue" ]; then
+          echo "User chose to continue."
+        elif [ "$RESPONSE" == "abort" ]; then
+          echo "User chose to abort."
+          exit 1
+        fi
+      # might be better to rewrite this so the choices define the exit codes and we print the message from the server
+      # directly, i.e. without capturing RESPONSE=()
+      
